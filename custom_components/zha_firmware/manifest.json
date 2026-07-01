@@ -1,8 +1,12 @@
 {
   "domain": "zha_firmware",
   "name": "ZHA Firmware OTA Manager",
-  "after_dependencies": ["zha"],
-  "codeowners": ["@foXaCe"],
+  "after_dependencies": [
+    "zha"
+  ],
+  "codeowners": [
+    "@foXaCe"
+  ],
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/foXaCe/zha-firmware",
@@ -10,5 +14,5 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/foXaCe/zha-firmware/issues",
   "requirements": [],
-  "version": "0.0.0"
+  "version": "1.0.0"
 }

@@ -4,29 +4,50 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from custom_components.zha_firmware.const import Z2M_KOENKK_INDEX_URL
+from custom_components.zha_firmware.const import (
+    Z2M_KOENKK_INDEX_URL,
+    ZIGPY_OTA_INDEX_URL,
+)
 from custom_components.zha_firmware.provider_registry import (
-    _extract_app,
+    _app_from_gateway,
+    _gateway_from_data,
     build_provider_specs,
     get_zigpy_app,
 )
 
 
-def test_extract_app_none_data() -> None:
+def test_gateway_from_data_none() -> None:
     """No ZHA data at all yields None."""
-    assert _extract_app(None) is None
+    assert _gateway_from_data(None) is None
 
 
-def test_extract_app_no_gateway() -> None:
-    """ZHA data present but the gateway proxy is missing yields None."""
-    assert _extract_app(SimpleNamespace(gateway_proxy=None)) is None
+def test_gateway_from_data_no_proxy() -> None:
+    """ZHA data present but no gateway proxy yields None."""
+    assert _gateway_from_data(SimpleNamespace(gateway_proxy=None)) is None
 
 
-def test_extract_app_returns_application() -> None:
-    """A gateway proxy exposing an application returns it."""
-    sentinel = object()
-    zha_data = SimpleNamespace(gateway_proxy=SimpleNamespace(application=sentinel))
-    assert _extract_app(zha_data) is sentinel
+def test_gateway_from_data_returns_gateway() -> None:
+    """The proxy's `.gateway` is returned."""
+    gateway = object()
+    zha_data = SimpleNamespace(gateway_proxy=SimpleNamespace(gateway=gateway))
+    assert _gateway_from_data(zha_data) is gateway
+
+
+def test_app_from_gateway_none() -> None:
+    """No gateway yields None."""
+    assert _app_from_gateway(None) is None
+
+
+def test_app_from_gateway_application_controller() -> None:
+    """The zigpy app is read from `application_controller`."""
+    app = object()
+    assert _app_from_gateway(SimpleNamespace(application_controller=app)) is app
+
+
+def test_app_from_gateway_fallback_application() -> None:
+    """Falls back to `.application` when there is no `application_controller`."""
+    app = object()
+    assert _app_from_gateway(SimpleNamespace(application=app)) is app
 
 
 def test_get_zigpy_app_none_when_unavailable() -> None:
@@ -35,15 +56,17 @@ def test_get_zigpy_app_none_when_unavailable() -> None:
     assert get_zigpy_app(fake_hass) is None  # type: ignore[arg-type]
 
 
-def test_specs_default_includes_koenkk() -> None:
-    """By default the Koenkk community index is included."""
-    assert ("z2m", Z2M_KOENKK_INDEX_URL) in build_provider_specs({})
+def test_specs_default_includes_koenkk_and_zigpy() -> None:
+    """By default both reliable community indexes are included."""
+    specs = build_provider_specs({})
+    assert ("z2m", Z2M_KOENKK_INDEX_URL) in specs
+    assert ("z2m", ZIGPY_OTA_INDEX_URL) in specs
 
 
-def test_specs_koenkk_can_be_disabled() -> None:
-    """Disabling Koenkk removes it from the specs."""
-    specs = build_provider_specs({"use_koenkk": False})
-    assert all(target != Z2M_KOENKK_INDEX_URL for _, target in specs)
+def test_specs_sources_can_be_disabled() -> None:
+    """Disabling both built-in sources leaves them out."""
+    specs = build_provider_specs({"use_koenkk": False, "use_zigpy": False})
+    assert specs == []
 
 
 def test_specs_extra_urls_and_local_folder() -> None:
@@ -51,6 +74,7 @@ def test_specs_extra_urls_and_local_folder() -> None:
     specs = build_provider_specs(
         {
             "use_koenkk": False,
+            "use_zigpy": False,
             "extra_urls": "https://a/index.json\n   \nhttps://b/index.json",
             "local_folder": " /config/zigbee_ota ",
         }

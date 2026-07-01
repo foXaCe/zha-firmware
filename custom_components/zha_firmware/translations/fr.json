@@ -18,6 +18,7 @@
         "description": "Choisissez les sources de firmware à ajouter à ZHA. Une mise à jour firmware peut, dans de rares cas, casser une fonction ou rendre un appareil inutilisable.",
         "data": {
           "use_koenkk": "Utiliser l'index communautaire Zigbee2MQTT (Koenkk/zigbee-OTA)",
+          "use_zigpy": "Utiliser l'index officiel zigpy (zigpy-ota)",
           "extra_urls": "URLs d'index distants supplémentaires (une par ligne)",
           "local_folder": "Dossier de firmware local (optionnel)",
           "broadcast": "Demander aux appareils de revérifier après modification"

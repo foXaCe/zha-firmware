@@ -14,8 +14,10 @@ from .const import (
     CONF_EXTRA_URLS,
     CONF_LOCAL_FOLDER,
     CONF_USE_KOENKK,
+    CONF_USE_ZIGPY,
     DEFAULT_BROADCAST,
     DEFAULT_USE_KOENKK,
+    DEFAULT_USE_ZIGPY,
     DOMAIN,
     INTEGRATION_NAME,
     ZHA_DOMAIN,
@@ -34,6 +36,10 @@ def _options_schema(options: Mapping[str, Any]) -> vol.Schema:
             vol.Required(
                 CONF_USE_KOENKK,
                 default=options.get(CONF_USE_KOENKK, DEFAULT_USE_KOENKK),
+            ): selector.BooleanSelector(),
+            vol.Required(
+                CONF_USE_ZIGPY,
+                default=options.get(CONF_USE_ZIGPY, DEFAULT_USE_ZIGPY),
             ): selector.BooleanSelector(),
             vol.Optional(
                 CONF_EXTRA_URLS,

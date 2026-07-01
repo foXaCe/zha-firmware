@@ -19,13 +19,19 @@ Z2M_KOENKK_INDEX_URL: Final = (
     "https://raw.githubusercontent.com/Koenkk/zigbee-OTA/master/index.json"
 )
 
+# Official zigpy team OTA index (Z2M format). Reliable, maintained by the
+# zigpy/HA developers; complements Koenkk with additional coverage.
+ZIGPY_OTA_INDEX_URL: Final = "https://raw.githubusercontent.com/zigpy/zigpy-ota/release/files/stable/z2m_v1_ota.json"
+
 # Options keys.
 CONF_USE_KOENKK: Final = "use_koenkk"
+CONF_USE_ZIGPY: Final = "use_zigpy"
 CONF_EXTRA_URLS: Final = "extra_urls"
 CONF_LOCAL_FOLDER: Final = "local_folder"
 CONF_BROADCAST: Final = "broadcast"
 
 DEFAULT_USE_KOENKK: Final = True
+DEFAULT_USE_ZIGPY: Final = True
 DEFAULT_BROADCAST: Final = True
 
 # How often we re-check that our providers are still registered with ZHA.

@@ -1,0 +1,69 @@
+name: Bug Report
+description: Signaler un bug dans ZHA Firmware OTA Manager
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Merci de fournir un maximum d'informations pour diagnostiquer rapidement.
+
+  - type: input
+    id: ha-version
+    attributes:
+      label: Version de Home Assistant
+      placeholder: ex. 2026.5.2
+    validations:
+      required: true
+
+  - type: input
+    id: integration-version
+    attributes:
+      label: Version de l'intégration
+      placeholder: ex. 0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: zha-version
+    attributes:
+      label: Version de ZHA / zigpy
+      placeholder: ex. zha 0.0.x
+    validations:
+      required: false
+
+  - type: dropdown
+    id: install-method
+    attributes:
+      label: Méthode d'installation
+      options:
+        - HACS
+        - Manuelle
+        - Autre
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Description du bug
+      description: Que se passe-t-il ? Que devrait-il se passer ?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Étapes de reproduction
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs pertinents
+      description: Paramètres → Système → Logs (filtrer par « zha_firmware »).
+      render: shell

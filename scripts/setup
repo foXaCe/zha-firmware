@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+python -m pip install --upgrade pip
+pip install -r requirements_dev.txt
+
+if ! command -v prek >/dev/null 2>&1; then
+  pipx install prek || pip install prek
+fi
+prek install
+
+echo "Setup terminé. Ensuite : scripts/develop"

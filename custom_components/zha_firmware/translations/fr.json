@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "ZHA Firmware OTA Manager",
+        "description": "Ajoute des sources de firmware communautaires à ZHA afin de pouvoir mettre à jour les appareils non couverts par les providers OTA par défaut."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Déjà configuré. Une seule configuration est possible."
+    }
+  }
+}

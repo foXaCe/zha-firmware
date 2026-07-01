@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Home Assistant dev instance
+config/
+home-assistant_v2.db*
+home-assistant.log*
+.storage/
+
+# Build artefacts
+*.zip
+*.zip.sha256
+
+# Local
+*.local
+.env
+.envrc

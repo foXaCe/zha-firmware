@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+mkdir -p config/custom_components
+
+# Configuration minimale la première fois
+if [ ! -f config/configuration.yaml ]; then
+  hass --config config --script ensure_config
+fi
+
+# Monte l'intégration en cours de dev dans la config HA
+ln -sfn "$(pwd)/custom_components/zha_firmware" config/custom_components/zha_firmware
+
+exec hass --config config --debug

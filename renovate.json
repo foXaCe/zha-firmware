@@ -1,0 +1,82 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "forkProcessing": "enabled",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(deps)",
+    "group:allNonMajor",
+    ":dependencyDashboard",
+    ":enableVulnerabilityAlertsWithLabel(security)",
+    ":maintainLockFilesWeekly",
+    ":timezone(Europe/Paris)"
+  ],
+  "labels": ["dependencies"],
+  "reviewers": ["foXaCe"],
+  "assignees": ["foXaCe"],
+  "prCreation": "immediate",
+  "prHourlyLimit": 4,
+  "prConcurrentLimit": 10,
+  "rangeStrategy": "auto",
+  "rebaseWhen": "auto",
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "📦 Renovate Dependency Dashboard",
+  "configMigration": true,
+  "pre-commit": {
+    "enabled": true
+  },
+  "vulnerabilityAlerts": {
+    "labels": ["security", "dependencies"],
+    "minimumReleaseAge": "0 days",
+    "schedule": ["at any time"],
+    "prCreation": "immediate"
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on monday"],
+    "automerge": true
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+      "automerge": true,
+      "platformAutomerge": true,
+      "labels": ["dependencies", "auto-merge"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "labels": ["dependencies", "github-actions"],
+      "automerge": true,
+      "platformAutomerge": true
+    },
+    {
+      "matchManagers": ["pre-commit"],
+      "labels": ["dependencies", "pre-commit"]
+    },
+    {
+      "matchDepNames": ["homeassistant", "home-assistant"],
+      "labels": ["dependencies", "homeassistant", "needs-review"],
+      "automerge": false,
+      "minimumReleaseAge": "14 days",
+      "groupName": "homeassistant"
+    },
+    {
+      "matchPackageNames": ["/^ruff/", "/^mypy/"],
+      "groupName": "lint & format tools",
+      "automerge": true,
+      "platformAutomerge": true
+    },
+    {
+      "matchPackageNames": ["/^pytest/"],
+      "groupName": "pytest stack"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies", "major", "needs-review"],
+      "automerge": false,
+      "minimumReleaseAge": "7 days"
+    }
+  ]
+}

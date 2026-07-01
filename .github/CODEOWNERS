@@ -1,0 +1,11 @@
+# Default owner for everything in the repo
+* @foXaCe
+
+# CI / repo plumbing
+/.github/ @foXaCe
+
+# Integration code
+/custom_components/zha_firmware/ @foXaCe
+
+# Translations
+/custom_components/zha_firmware/translations/ @foXaCe

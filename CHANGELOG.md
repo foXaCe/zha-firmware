@@ -13,5 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (ruff, mypy, pytest), validation (hassfest, HACS), security (CodeQL,
   pip-audit, gitleaks), release pipeline (release-please), Renovate config, and
   dev container.
-- Runtime injection of the community Koenkk/zigbee-OTA provider into ZHA's
-  zigpy application, plus a `zha_firmware.check_updates` service to re-run it.
+- Runtime injection of OTA sources into ZHA's zigpy application, plus a
+  `zha_firmware.check_updates` service to re-run it on demand.
+- Options flow to manage OTA sources: toggle the Koenkk/zigbee-OTA index, add
+  extra remote index URLs, add a local firmware folder, and toggle the OTA
+  broadcast.
+- Config flow aborts when the ZHA integration is not set up.
+- Periodic ensure loop that re-injects the sources after a ZHA reload.

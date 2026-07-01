@@ -7,7 +7,22 @@
       }
     },
     "abort": {
-      "single_instance_allowed": "Déjà configuré. Une seule configuration est possible."
+      "single_instance_allowed": "Déjà configuré. Une seule configuration est possible.",
+      "zha_not_configured": "L'intégration ZHA n'est pas configurée. Configurez d'abord ZHA, puis ajoutez cette intégration."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Sources OTA",
+        "description": "Choisissez les sources de firmware à ajouter à ZHA. Une mise à jour firmware peut, dans de rares cas, casser une fonction ou rendre un appareil inutilisable.",
+        "data": {
+          "use_koenkk": "Utiliser l'index communautaire Zigbee2MQTT (Koenkk/zigbee-OTA)",
+          "extra_urls": "URLs d'index distants supplémentaires (une par ligne)",
+          "local_folder": "Dossier de firmware local (optionnel)",
+          "broadcast": "Demander aux appareils de revérifier après modification"
+        }
+      }
     }
   },
   "services": {

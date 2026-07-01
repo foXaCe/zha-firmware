@@ -1,11 +1,13 @@
-"""Unit tests for the defensive ZHA gateway accessor (no HA/zha runtime needed)."""
+"""Unit tests for the pure helpers of provider_registry (no HA/zha runtime)."""
 
 from __future__ import annotations
 
 from types import SimpleNamespace
 
+from custom_components.zha_firmware.const import Z2M_KOENKK_INDEX_URL
 from custom_components.zha_firmware.provider_registry import (
     _extract_app,
+    build_provider_specs,
     get_zigpy_app,
 )
 
@@ -31,3 +33,28 @@ def test_get_zigpy_app_none_when_unavailable() -> None:
     """With empty hass data (and zha not set up), the accessor returns None."""
     fake_hass = SimpleNamespace(data={})
     assert get_zigpy_app(fake_hass) is None  # type: ignore[arg-type]
+
+
+def test_specs_default_includes_koenkk() -> None:
+    """By default the Koenkk community index is included."""
+    assert ("z2m", Z2M_KOENKK_INDEX_URL) in build_provider_specs({})
+
+
+def test_specs_koenkk_can_be_disabled() -> None:
+    """Disabling Koenkk removes it from the specs."""
+    specs = build_provider_specs({"use_koenkk": False})
+    assert all(target != Z2M_KOENKK_INDEX_URL for _, target in specs)
+
+
+def test_specs_extra_urls_and_local_folder() -> None:
+    """Extra URLs (one per line, blanks ignored) and a local folder are added."""
+    specs = build_provider_specs(
+        {
+            "use_koenkk": False,
+            "extra_urls": "https://a/index.json\n   \nhttps://b/index.json",
+            "local_folder": " /config/zigbee_ota ",
+        }
+    )
+    assert ("z2m", "https://a/index.json") in specs
+    assert ("z2m", "https://b/index.json") in specs
+    assert ("advanced", "/config/zigbee_ota") in specs

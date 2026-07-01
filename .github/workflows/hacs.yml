@@ -26,5 +26,3 @@ jobs:
       - uses: hacs/action@main
         with:
           category: integration
-          # Repo custom (non listé dans home-assistant/brands) → on ignore le check brands.
-          ignore: brands

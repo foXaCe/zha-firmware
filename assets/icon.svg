@@ -1,0 +1,31 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EF4A3C"/>
+      <stop offset="1" stop-color="#9E1B2E"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="480" height="480" rx="104" fill="url(#bg)"/>
+  <!-- chip body -->
+  <rect x="161" y="161" width="190" height="190" rx="30" fill="none" stroke="#ffffff" stroke-width="22"/>
+  <!-- pins -->
+  <g stroke="#ffffff" stroke-width="22" stroke-linecap="round">
+    <line x1="211" y1="104" x2="211" y2="146"/>
+    <line x1="256" y1="104" x2="256" y2="146"/>
+    <line x1="301" y1="104" x2="301" y2="146"/>
+    <line x1="211" y1="366" x2="211" y2="408"/>
+    <line x1="256" y1="366" x2="256" y2="408"/>
+    <line x1="301" y1="366" x2="301" y2="408"/>
+    <line x1="104" y1="211" x2="146" y2="211"/>
+    <line x1="104" y1="256" x2="146" y2="256"/>
+    <line x1="104" y1="301" x2="146" y2="301"/>
+    <line x1="366" y1="211" x2="408" y2="211"/>
+    <line x1="366" y1="256" x2="408" y2="256"/>
+    <line x1="366" y1="301" x2="408" y2="301"/>
+  </g>
+  <!-- OTA up arrow -->
+  <g stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <line x1="256" y1="314" x2="256" y2="228"/>
+    <polyline points="218,262 256,220 294,262"/>
+  </g>
+</svg>

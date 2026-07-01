@@ -1,12 +1,12 @@
-# Politique de sécurité
+# Security Policy
 
-## Versions supportées
+## Supported versions
 
-Seule la dernière version publiée sur la branche `main` est supportée.
+Only the latest version published on the `main` branch is supported.
 
-## Signaler une vulnérabilité
+## Reporting a vulnerability
 
-**N'ouvrez pas d'issue publique.** Signalez toute vulnérabilité en privé via un
-[rapport de sécurité GitHub](https://github.com/foXaCe/zha-firmware/security/advisories/new).
+**Do not open a public issue.** Report any vulnerability privately via a
+[GitHub security advisory](https://github.com/foXaCe/zha-firmware/security/advisories/new).
 
-Délai de réponse visé : 7 jours.
+Target response time: 7 days.

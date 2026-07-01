@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Bootstrap du dépôt : squelette d'intégration (config flow mono-instance),
-  CI (ruff, mypy, hassfest, HACS), sécurité (CodeQL, pip-audit, OSV, gitleaks),
-  pipeline de release (release-please), Renovate, devcontainer.
+- Repository bootstrap: integration skeleton (single-instance config flow), CI
+  (ruff, mypy, pytest), validation (hassfest, HACS), security (CodeQL,
+  pip-audit, gitleaks), release pipeline (release-please), Renovate config, and
+  dev container.
+- Runtime injection of the community Koenkk/zigbee-OTA provider into ZHA's
+  zigpy application, plus a `zha_firmware.check_updates` service to re-run it.

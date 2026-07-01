@@ -9,5 +9,11 @@
     "abort": {
       "single_instance_allowed": "Déjà configuré. Une seule configuration est possible."
     }
+  },
+  "services": {
+    "check_updates": {
+      "name": "Rechercher des mises à jour firmware",
+      "description": "Réenregistre les sources OTA communautaires dans ZHA et demande aux appareils Zigbee de revérifier la disponibilité d'un firmware."
+    }
   }
 }

@@ -1,37 +1,41 @@
-# Contribuer
+# Contributing
 
-Merci de votre intérêt pour **ZHA Firmware OTA Manager** !
+Thanks for your interest in **ZHA Firmware OTA Manager**!
 
-## Signaler un bug
+## Reporting a bug
 
-Utilisez le [modèle de rapport de bug](.github/ISSUE_TEMPLATE/bug_report.yml).
+Use the [bug report template](.github/ISSUE_TEMPLATE/bug_report.yml).
 
-## Proposer une fonctionnalité
+## Requesting a feature
 
-Utilisez le [modèle de demande de fonctionnalité](.github/ISSUE_TEMPLATE/feature_request.yml).
+Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.yml).
 
 ## Pull requests
 
-1. Forkez le dépôt.
-2. Créez une branche dédiée : `git checkout -b feat/ma-fonctionnalite`.
-3. Installez l'environnement : `scripts/setup`.
-4. Codez, ajoutez/mettez à jour les tests : `scripts/test`.
-5. Vérifiez le lint et le typage : `scripts/lint`.
-6. Commits au format [Conventional Commits](https://www.conventionalcommits.org/) : `feat: …`, `fix: …`.
-7. Poussez et ouvrez une PR vers `main`.
+1. Fork the repository.
+2. Create a dedicated branch: `git checkout -b feat/my-feature`.
+3. Set up the environment: `scripts/setup`.
+4. Write code and add/update tests: `scripts/test`.
+5. Check lint and typing: `scripts/lint`.
+6. Use [Conventional Commits](https://www.conventionalcommits.org/): `feat: …`, `fix: …`.
+7. Push and open a PR against `main`.
 
-## Environnement local
+## Local setup
 
 ```bash
-pipx install prek   # ou : brew install j178/prek/prek
-scripts/setup       # installe les deps + le hook prek
+pipx install prek   # or: brew install j178/prek/prek
+scripts/setup       # installs deps + the prek hook
 ```
 
-`prek` est un remplaçant Rust de `pre-commit` (10× plus rapide), qui lit le même
-`.pre-commit-config.yaml`. Si vous préférez la version Python : `pipx install pre-commit`.
+`prek` is a Rust drop-in replacement for `pre-commit` (much faster) that reads
+the same `.pre-commit-config.yaml`. If you prefer the Python version:
+`pipx install pre-commit`.
 
-## Gestion des dépendances
+> Note: `mypy` is intentionally **not** a pre-commit hook (its environment,
+> which needs Home Assistant, is too large). It runs in CI and via
+> `scripts/lint`.
 
-Ce dépôt utilise **Renovate** (et non Dependabot). Les PR de mise à jour sont
-ouvertes par `@renovate[bot]` ; voir le tableau de bord des dépendances dans les
-issues.
+## Dependency management
+
+This repository uses **Renovate** (not Dependabot). Update PRs are opened by
+`@renovate[bot]`; see the dependency dashboard in the issues.

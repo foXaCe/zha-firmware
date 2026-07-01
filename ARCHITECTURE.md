@@ -1,56 +1,57 @@
 # Architecture
 
-## Objectif
+## Goal
 
-Étendre le système de mise à jour firmware OTA de **ZHA** avec des sources
-communautaires (au premier chef `Koenkk/zigbee-OTA` de Zigbee2MQTT), sans
-demander à l'utilisateur d'éditer `configuration.yaml` ni de redémarrer.
+Extend **ZHA**'s OTA firmware update system with community sources (first and
+foremost `Koenkk/zigbee-OTA` from Zigbee2MQTT), without requiring the user to
+edit `configuration.yaml` or restart.
 
-## Constat technique
+## Technical background
 
-- ZHA sait déjà pousser des firmwares OTA, via les entités `update.*` standard de
-  Home Assistant, activées par défaut.
-- Ses providers OTA par défaut se limitent à quelques fabricants (IKEA, Inovelli,
-  Ledvance/OSRAM, Sonoff, ThirdReality). Les autres appareils restent à `Unknown`.
-- zigpy expose déjà des types de providers `z2m` / `z2m_local` / `advanced` et une
-  méthode **publique** `OTA.register_provider()` — la liste interne des providers
-  est une liste Python mutable à chaud.
+- ZHA can already push OTA firmware, through Home Assistant's standard
+  `update.*` entities, enabled by default.
+- Its default OTA providers are limited to a few manufacturers (IKEA, Inovelli,
+  Ledvance/OSRAM, Sonoff, ThirdReality). Other devices stay `Unknown`.
+- zigpy already exposes `z2m` / `z2m_local` / `advanced` provider types and a
+  **public** `OTA.register_provider()` method — the internal provider list is a
+  mutable Python list.
 
-## Point d'accès à ZHA
+## Access point into ZHA
 
 ```python
 from homeassistant.components.zha.const import DATA_ZHA
 
 zigpy_app = hass.data[DATA_ZHA].gateway_proxy.application  # ControllerApplication
-zigpy_app.ota.register_provider(provider)                  # méthode publique, dédup incluse
+zigpy_app.ota.register_provider(provider)                  # public, de-duplicated
 ```
 
-Classes de providers (`zigpy.ota.providers`) :
+Provider classes (`zigpy.ota.providers`):
 
-- `RemoteZ2MProvider(url=...)` — index distant façon Zigbee2MQTT (Koenkk).
-- `LocalZ2MProvider(index_file=Path)` — index local (miroir).
-- `AdvancedFileProvider(path=Path)` — dossier de firmwares locaux.
+- `RemoteZ2MProvider(url=...)` — remote Zigbee2MQTT-style index (Koenkk).
+- `LocalZ2MProvider(index_file=Path)` — local index (mirror).
+- `AdvancedFileProvider(path=Path)` — local firmware folder.
 
-Après injection, un `await zigpy_app.ota.broadcast_notify()` invite les appareils
-à re-vérifier la disponibilité d'un firmware, ce qui peuple les entités `update.*`.
+After injection, `await zigpy_app.ota.broadcast_notify()` asks devices to
+re-check for firmware, which populates the `update.*` entities.
 
-## Flux cible
+## Target flow
 
 ```
 config entry (UI) ──▶ provider_registry ──▶ zigpy_app.ota.register_provider(...)
                                               │
-       coordinator (ensure-loop) ────────────┘   (ré-injection au reload de ZHA)
+       coordinator (ensure loop) ────────────┘   (re-inject on ZHA reload)
                                               │
                           zigpy_app.ota.broadcast_notify()  ──▶  update.<device>
 ```
 
-> ⚠️ `hass.data[DATA_ZHA].gateway_proxy.application` est une **API privée de ZHA**
-> susceptible de bouger selon les versions de Home Assistant. L'accès doit être
-> défensif et gardé par version.
+> ⚠️ `hass.data[DATA_ZHA].gateway_proxy.application` is a **private ZHA API**
+> that may change across Home Assistant versions. Access must be defensive and
+> version-guarded.
 
-## Feuille de route
+## Roadmap
 
-- **Phase 1 (A)** — config flow UI + injection runtime des providers + ensure-loop
-  de ré-injection au reload de ZHA + service de rafraîchissement OTA.
-- **Phase 2 (B)** — miroir/cache local des firmwares (offline, anti rate-limit
-  GitHub) exposé comme une source `LocalZ2MProvider` supplémentaire dans l'UI.
+- **Phase 1 (A)** — config flow UI + runtime provider injection + an ensure loop
+  that re-injects on ZHA reload + an OTA refresh service. _(injection PoC landed;
+  UI and ensure loop pending.)_
+- **Phase 2 (B)** — a local firmware mirror/cache (offline, GitHub rate-limit
+  safe) exposed as an additional `LocalZ2MProvider` source in the UI.

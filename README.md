@@ -7,69 +7,67 @@
 [![hassfest][hassfest-shield]][hassfest]
 [![Maintenance][maintenance-shield]][maintenance]
 
-_Étend le système de mise à jour firmware OTA de **ZHA** avec des sources communautaires._
+_Extend ZHA's OTA firmware update system with community sources._
 
-ZHA sait déjà faire des mises à jour firmware OTA, mais ses providers par défaut se
-limitent à une poignée de fabricants (IKEA, Inovelli, Ledvance/OSRAM, Sonoff,
-ThirdReality). Pour tous les autres appareils, l'entité `update` reste à
-`Unknown`. Cette intégration ajoute des **sources OTA supplémentaires** — au
-premier chef l'index [`Koenkk/zigbee-OTA`][koenkk] de Zigbee2MQTT, qui couvre des
-centaines d'appareils — en les **injectant à chaud** dans le registre OTA de
-zigbee/zigpy. Aucune édition de `configuration.yaml`, aucun redémarrage.
+ZHA can already perform OTA firmware updates, but its default providers are
+limited to a handful of manufacturers (IKEA, Inovelli, Ledvance/OSRAM, Sonoff,
+ThirdReality). For every other device the `update` entity stays `Unknown`. This
+integration adds **extra OTA sources** — first and foremost the
+[`Koenkk/zigbee-OTA`][koenkk] index used by Zigbee2MQTT, which covers hundreds
+of devices — by **injecting them at runtime** into the zigbee/zigpy OTA
+registry. No `configuration.yaml` editing, no restart.
 
 > [!WARNING]
-> Une mise à jour firmware peut casser une fonction (ex. le group binding sur
-> certains appareils) ou, dans de rares cas, rendre un appareil inutilisable.
-> Utilisez cette intégration en connaissance de cause.
+> A firmware update can break a feature (e.g. group binding on some devices)
+> or, in rare cases, brick a device. Use this integration at your own risk.
 
-## Fonctionnalités
+## Features
 
-- Ajoute la source communautaire **Zigbee2MQTT** (`Koenkk/zigbee-OTA`) à ZHA
-- Injection **à chaud** des providers OTA (pas de YAML, pas de redémarrage)
-- _(à venir)_ interface de gestion des sources OTA
-- _(à venir)_ miroir/cache local des firmwares (offline, anti rate-limit GitHub)
+- Adds the **Zigbee2MQTT** community source (`Koenkk/zigbee-OTA`) to ZHA.
+- **Runtime** injection of OTA providers (no YAML, no restart).
+- A `zha_firmware.check_updates` service to re-register the sources and ask
+  devices to re-check for firmware.
+- _(planned)_ a UI to manage OTA sources.
+- _(planned)_ a local firmware mirror/cache (offline, GitHub rate-limit safe).
 
-> **État** : bootstrap en cours — le squelette se charge dans Home Assistant ;
-> la logique d'injection arrive dans une passe ultérieure.
+## Requirements
 
-## Prérequis
-
-- Home Assistant ≥ 2025.1
-- L'intégration **ZHA** configurée et active
+- Home Assistant >= 2025.1
+- The **ZHA** integration configured and running
 
 ## Installation
 
-### HACS (recommandé)
+### HACS (recommended)
 
-1. Ouvrez HACS dans Home Assistant.
-2. Ajoutez ce dépôt comme dépôt personnalisé (type : Integration).
-3. Recherchez « ZHA Firmware OTA Manager » et installez.
-4. Redémarrez Home Assistant.
-5. Paramètres → Appareils et services → Ajouter une intégration → « ZHA Firmware OTA Manager ».
+1. Open HACS in Home Assistant.
+2. Add this repository as a custom repository (type: Integration).
+3. Search for "ZHA Firmware OTA Manager" and install it.
+4. Restart Home Assistant.
+5. Settings → Devices & Services → Add Integration → "ZHA Firmware OTA Manager".
 
-### Manuelle
+### Manual
 
-1. Copiez `custom_components/zha_firmware/` dans `<config>/custom_components/`.
-2. Redémarrez Home Assistant.
-3. Ajoutez l'intégration depuis l'interface.
+1. Copy `custom_components/zha_firmware/` into `<config>/custom_components/`.
+2. Restart Home Assistant.
+3. Add the integration from the UI.
 
 ## Configuration
 
-Paramètres → Appareils et services → Ajouter une intégration → « ZHA Firmware OTA Manager ».
+Settings → Devices & Services → Add Integration → "ZHA Firmware OTA Manager".
 
-## Fonctionnement
+## How it works
 
-L'intégration récupère l'objet application zigpy exposé par ZHA
-(`gateway_proxy.application`) et enregistre des providers OTA supplémentaires via
-`application.ota.register_provider(...)`. Un rafraîchissement OTA
-(`ota.broadcast_notify()`) invite ensuite les appareils à re-vérifier la
-disponibilité d'un firmware, ce qui peuple les entités `update.*` de ZHA.
+The integration retrieves the zigpy application object exposed by ZHA
+(`gateway_proxy.application`) and registers additional OTA providers via
+`application.ota.register_provider(...)`. An OTA refresh
+(`ota.broadcast_notify()`) then asks devices to re-check for available firmware,
+which populates ZHA's `update.*` entities.
 
-## Contribuer
+## Contributing
 
-Voir [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Licence
+## License
 
 [MIT](LICENSE)
 

@@ -20,12 +20,7 @@ repos:
       - id: mixed-line-ending
         args: [--fix=lf]
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.14.1
-    hooks:
-      - id: mypy
-        additional_dependencies:
-          - homeassistant
-          - voluptuous
-        args: [--strict]
-        files: ^custom_components/zha_firmware/
+# Note: mypy is intentionally NOT a pre-commit hook. Building its environment
+# with Home Assistant as a dependency exceeds prek's environment size tier
+# (~520 MiB). mypy --strict runs in CI (ci.yml) and via `scripts/lint`, where
+# Home Assistant is installed normally.

@@ -1,16 +1,16 @@
 # ZHA Firmware OTA Manager
 
-Étend le système de mise à jour firmware OTA de **ZHA** avec des sources
-communautaires — au premier chef l'index `Koenkk/zigbee-OTA` de Zigbee2MQTT —
-afin de couvrir les appareils Zigbee absents des providers OTA par défaut de ZHA
-(IKEA, Inovelli, Ledvance/OSRAM, Sonoff, ThirdReality).
+Extends **ZHA**'s OTA firmware update system with community sources — first and
+foremost the `Koenkk/zigbee-OTA` index from Zigbee2MQTT — so that Zigbee devices
+missing from ZHA's default OTA providers (IKEA, Inovelli, Ledvance/OSRAM,
+Sonoff, ThirdReality) can be updated.
 
-Les sources sont injectées **à chaud** dans le registre OTA de zigbee/zigpy :
-aucune édition de `configuration.yaml`, aucun redémarrage.
+Sources are injected **at runtime** into the zigbee/zigpy OTA registry: no
+`configuration.yaml` editing, no restart.
 
-> ⚠️ Une mise à jour firmware peut, dans de rares cas, casser une fonction ou
-> rendre un appareil inutilisable. À utiliser en connaissance de cause.
+> ⚠️ A firmware update can, in rare cases, break a feature or brick a device.
+> Use with care.
 
 ## Configuration
 
-Paramètres → Appareils et services → Ajouter une intégration → « ZHA Firmware OTA Manager ».
+Settings → Devices & Services → Add Integration → "ZHA Firmware OTA Manager".

@@ -1,22 +1,22 @@
 name: Feature Request
-description: Proposer une nouvelle fonctionnalité
+description: Suggest a new feature
 title: "[Feature]: "
 labels: ["enhancement"]
 body:
   - type: textarea
     id: problem
     attributes:
-      label: Problème
-      description: Quel besoin n'est pas couvert ?
+      label: Problem
+      description: What need is not covered?
     validations:
       required: true
 
   - type: textarea
     id: solution
     attributes:
-      label: Solution proposée
+      label: Proposed solution
 
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternatives envisagées
+      label: Alternatives considered

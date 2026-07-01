@@ -27,8 +27,8 @@ jobs:
           exempt-issue-labels: "pinned,security,help wanted,good first issue"
           exempt-pr-labels: "pinned,security,dependencies"
           stale-issue-message: >-
-            Cette issue est inactive depuis 60 jours. Sans activité, elle sera
-            fermée dans 14 jours.
+            This issue has been inactive for 60 days. Without activity it will
+            be closed in 14 days.
           stale-pr-message: >-
-            Cette PR est inactive depuis 60 jours. Sans activité, elle sera
-            fermée dans 14 jours.
+            This pull request has been inactive for 60 days. Without activity it
+            will be closed in 14 days.

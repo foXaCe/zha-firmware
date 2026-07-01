@@ -58,6 +58,12 @@ show_error_codes = true
 module = "tests.*"
 disallow_untyped_defs = false
 
+# zigpy is imported lazily to reach ZHA's OTA registry; it may lack complete
+# type information, so we do not fail strict type checking on it.
+[[tool.mypy.overrides]]
+module = ["zigpy.*"]
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"

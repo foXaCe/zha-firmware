@@ -41,7 +41,7 @@
   "packageRules": [
     {
       "description": "Home Assistant dictates the Python version; do not let Renovate bump it",
-      "matchDatasources": ["python-version"],
+      "matchDepNames": ["python"],
       "enabled": false
     },
     {

@@ -25,10 +25,14 @@ registry. No `configuration.yaml` editing, no restart.
 
 - Adds reliable community OTA sources to ZHA: **Koenkk/zigbee-OTA** (Zigbee2MQTT)
   and the official **zigpy-ota** index — both enabled by default.
-- **Runtime** injection of OTA providers (no YAML, no restart).
+- **Runtime** injection of OTA providers (no YAML, no restart), kept alive
+  across ZHA reloads.
+- A UI (options) to manage sources: toggle Koenkk / zigpy, add extra remote
+  index URLs, add a local firmware folder.
+- A **status sensor** (number of active sources, ZHA reachability) and
+  downloadable **diagnostics**.
 - A `zha_firmware.check_updates` service to re-register the sources and ask
   devices to re-check for firmware.
-- _(planned)_ a UI to manage OTA sources.
 - _(planned)_ a local firmware mirror/cache (offline, GitHub rate-limit safe).
 
 ## Requirements

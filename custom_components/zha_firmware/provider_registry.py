@@ -13,12 +13,10 @@ import pathlib
 from typing import TYPE_CHECKING, Any
 
 from .const import (
-    CONF_BROADCAST,
     CONF_EXTRA_URLS,
     CONF_LOCAL_FOLDER,
     CONF_USE_KOENKK,
     CONF_USE_ZIGPY,
-    DEFAULT_BROADCAST,
     DEFAULT_USE_KOENKK,
     DEFAULT_USE_ZIGPY,
     Z2M_KOENKK_INDEX_URL,
@@ -28,7 +26,6 @@ from .const import (
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
-    from homeassistant.config_entries import ConfigEntry
     from homeassistant.core import HomeAssistant
 
 _LOGGER = logging.getLogger(__name__)
@@ -120,7 +117,7 @@ def build_provider_specs(options: Mapping[str, Any]) -> list[ProviderSpec]:
     return specs
 
 
-def _instantiate_providers(specs: list[ProviderSpec]) -> list[Any]:
+def instantiate_providers(specs: list[ProviderSpec]) -> list[Any]:
     """Build zigpy provider objects from specs (needs the zigpy package)."""
     try:
         from zigpy.ota import providers
@@ -137,59 +134,9 @@ def _instantiate_providers(specs: list[ProviderSpec]) -> list[Any]:
     return built
 
 
-class OtaSourceManager:
-    """Own the injection of OTA sources into ZHA and keep them alive.
-
-    ``async_ensure`` is idempotent: it only (re-)registers providers when the
-    ZHA application object changes (i.e. the first time, or after a ZHA reload),
-    which is what a periodic ensure loop relies on.
-    """
-
-    def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
-        """Initialise the manager for a config entry."""
-        self.hass = hass
-        self.entry = entry
-        self._last_app: Any = None
-        self._warned_unreachable = False
-
-    async def async_ensure(self, *, force: bool = False) -> bool:
-        """Ensure our providers are registered with the current ZHA gateway.
-
-        Returns ``True`` when ZHA is reachable, ``False`` otherwise.
-        """
-        app = get_zigpy_app(self.hass)
-        if app is None:
-            self._last_app = None
-            # Warn once, then stay at debug level to avoid spamming the log while
-            # the ensure loop keeps retrying (e.g. during a ZHA reload).
-            if not self._warned_unreachable:
-                _LOGGER.warning(
-                    "Could not reach the ZHA gateway; OTA sources not injected "
-                    "(will keep retrying)"
-                )
-                self._warned_unreachable = True
-            else:
-                _LOGGER.debug("ZHA gateway still not reachable")
-            return False
-
-        self._warned_unreachable = False
-        if app is self._last_app and not force:
-            return True
-
-        specs = build_provider_specs(self.entry.options)
-        providers = _instantiate_providers(specs)
-        for provider in providers:
-            app.ota.register_provider(provider)
-        self._last_app = app
-        _LOGGER.info("Registered %d OTA source(s) with ZHA", len(providers))
-
-        if self.entry.options.get(CONF_BROADCAST, DEFAULT_BROADCAST):
-            await self._broadcast(app)
-        return True
-
-    async def _broadcast(self, app: Any) -> None:
-        """Ask devices to re-check for firmware (best effort)."""
-        try:
-            await app.ota.broadcast_notify()
-        except Exception:  # broad on purpose: a failed broadcast must not break setup
-            _LOGGER.debug("OTA broadcast_notify failed (non-fatal)", exc_info=True)
+async def async_broadcast_notify(app: Any) -> None:
+    """Ask devices to re-check for firmware (best effort)."""
+    try:
+        await app.ota.broadcast_notify()
+    except Exception:  # broad on purpose: a failed broadcast must not break setup
+        _LOGGER.debug("OTA broadcast_notify failed (non-fatal)", exc_info=True)

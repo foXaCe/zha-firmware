@@ -18,10 +18,14 @@
         "description": "Choisissez les sources de firmware à ajouter à ZHA. Une mise à jour firmware peut, dans de rares cas, casser une fonction ou rendre un appareil inutilisable.",
         "data": {
           "use_koenkk": "Utiliser l'index communautaire Zigbee2MQTT (Koenkk/zigbee-OTA)",
-          "use_zigpy": "Utiliser l'index officiel zigpy (zigpy-ota)",
+          "use_zigpy": "Utiliser l'index firmware officiel zigpy (zigpy-ota)",
           "extra_urls": "URLs d'index distants supplémentaires (une par ligne)",
           "local_folder": "Dossier de firmware local (optionnel)",
           "broadcast": "Demander aux appareils de revérifier après modification"
+        },
+        "data_description": {
+          "use_koenkk": "La grande collection communautaire de firmwares utilisée par Zigbee2MQTT ; des centaines d'appareils de nombreux fabricants.",
+          "use_zigpy": "Un index fiable maintenu par les développeurs zigpy / Home Assistant. Complète l'index Zigbee2MQTT avec une couverture d'appareils supplémentaire."
         }
       }
     }
@@ -30,6 +34,13 @@
     "check_updates": {
       "name": "Rechercher des mises à jour firmware",
       "description": "Réenregistre les sources OTA communautaires dans ZHA et demande aux appareils Zigbee de revérifier la disponibilité d'un firmware."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "ota_sources": {
+        "name": "Sources OTA actives"
+      }
     }
   }
 }

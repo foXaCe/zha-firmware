@@ -68,6 +68,32 @@ The integration retrieves the zigpy application object exposed by ZHA
 (`ota.broadcast_notify()`) then asks devices to re-check for available firmware,
 which populates ZHA's `update.*` entities.
 
+## Troubleshooting
+
+**A device's update entity shows "Unknown".** No firmware image exists for it
+in any active source. This is common for white-label Tuya devices
+(`_TZ3000_…`): no manufacturer publishes their firmware, so there is nothing to
+offer — Zigbee2MQTT shows the same.
+
+**No update is offered even though the device is known.** Most likely the
+installed firmware is already the same as (or newer than) what the indexes
+contain. The `update` entity's `installed_version` / `latest_version`
+attributes tell you exactly what was matched.
+
+**Battery-powered devices never show a version.** Sleeping devices only check
+for firmware when they wake up. Call the `zha_firmware.check_updates` service,
+then wake the device (press a button, rotate a cube…) and give it a minute.
+
+**"ZHA gateway unreachable" repair issue.** The integration could not reach
+ZHA's runtime for several minutes. Check that ZHA is loaded and running
+(Settings → Devices & Services → ZHA). The integration retries automatically
+and the issue clears itself once ZHA is back.
+
+**Check the integration status at a glance.** The diagnostic sensor
+**Active OTA sources** shows how many sources are registered; its attributes
+list each source URL, the number of firmware entries it serves, and the last
+injection time.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).

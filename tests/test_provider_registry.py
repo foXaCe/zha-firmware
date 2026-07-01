@@ -13,6 +13,8 @@ from custom_components.zha_firmware.provider_registry import (
     _gateway_from_data,
     build_provider_specs,
     get_zigpy_app,
+    invalid_urls,
+    validate_folder,
 )
 
 
@@ -67,6 +69,21 @@ def test_specs_sources_can_be_disabled() -> None:
     """Disabling both built-in sources leaves them out."""
     specs = build_provider_specs({"use_koenkk": False, "use_zigpy": False})
     assert specs == []
+
+
+def test_invalid_urls_flags_bad_entries() -> None:
+    """Non-http(s) entries are reported; blanks and valid URLs are not."""
+    raw = "https://ok/index.json\nftp://nope\n  \nnot-a-url\nhttp://ok2"
+    assert invalid_urls(raw) == ["ftp://nope", "not-a-url"]
+    assert invalid_urls("") == []
+
+
+def test_validate_folder(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    """Absolute creatable paths pass; relative paths fail."""
+    target = tmp_path / "ota" / "images"
+    assert validate_folder(str(target)) is True
+    assert target.is_dir()
+    assert validate_folder("relative/path") is False
 
 
 def test_specs_extra_urls_and_local_folder() -> None:

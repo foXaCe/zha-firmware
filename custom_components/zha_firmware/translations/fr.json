@@ -28,6 +28,16 @@
           "use_zigpy": "Un index fiable maintenu par les développeurs zigpy / Home Assistant. Complète l'index Zigbee2MQTT avec une couverture d'appareils supplémentaire."
         }
       }
+    },
+    "error": {
+      "invalid_url": "Une ou plusieurs entrées ne sont pas des URLs http(s) valides.",
+      "invalid_folder": "Le chemin du dossier doit être absolu et accessible en écriture."
+    }
+  },
+  "issues": {
+    "zha_gateway_unreachable": {
+      "title": "Passerelle ZHA injoignable",
+      "description": "ZHA Firmware OTA Manager ne parvient pas à joindre la passerelle ZHA : les sources OTA supplémentaires ne sont pas actives pour le moment. Vérifiez que l'intégration ZHA est chargée et fonctionnelle. L'intégration réessaie automatiquement et cette alerte disparaîtra dès que la passerelle sera de nouveau joignable."
     }
   },
   "services": {

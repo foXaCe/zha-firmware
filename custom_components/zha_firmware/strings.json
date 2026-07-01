@@ -28,6 +28,16 @@
           "use_zigpy": "A reliable index maintained by the zigpy / Home Assistant developers. Complements the Zigbee2MQTT index with extra device coverage."
         }
       }
+    },
+    "error": {
+      "invalid_url": "One or more entries are not valid http(s) URLs.",
+      "invalid_folder": "The folder path must be absolute and writable."
+    }
+  },
+  "issues": {
+    "zha_gateway_unreachable": {
+      "title": "ZHA gateway unreachable",
+      "description": "ZHA Firmware OTA Manager cannot reach the ZHA gateway, so the extra OTA sources are currently not active. Check that the ZHA integration is loaded and running. The integration keeps retrying automatically and this issue will disappear once the gateway is reachable again."
     }
   },
   "services": {

@@ -41,3 +41,13 @@ ENSURE_INTERVAL: Final = timedelta(minutes=2)
 
 # Service that (re-)registers the OTA sources and asks devices to re-check.
 SERVICE_CHECK_UPDATES: Final = "check_updates"
+
+# Repair issue raised when the ZHA gateway stays unreachable.
+ISSUE_ZHA_UNREACHABLE: Final = "zha_gateway_unreachable"
+
+# Consecutive failed injection attempts before raising the repair issue
+# (avoids flashing an issue during a normal ZHA reload/startup window).
+UNREACHABLE_FAILURES_BEFORE_ISSUE: Final = 2
+
+# Timeout for fetching a remote index when computing per-source statistics.
+INDEX_FETCH_TIMEOUT: Final = 15

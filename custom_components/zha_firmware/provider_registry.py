@@ -117,6 +117,32 @@ def build_provider_specs(options: Mapping[str, Any]) -> list[ProviderSpec]:
     return specs
 
 
+def invalid_urls(raw: str | list[str]) -> list[str]:
+    """Return the entries of ``raw`` that are not http(s) URLs (pure)."""
+    lines = raw.splitlines() if isinstance(raw, str) else raw
+    bad: list[str] = []
+    for line in lines:
+        url = str(line).strip()
+        if url and not url.lower().startswith(("http://", "https://")):
+            bad.append(url)
+    return bad
+
+
+def validate_folder(path_str: str) -> bool:
+    """Check a firmware folder path: absolute, creatable, and a directory.
+
+    Blocking filesystem I/O — call via ``hass.async_add_executor_job``.
+    """
+    path = pathlib.Path(path_str)
+    if not path.is_absolute():
+        return False
+    try:
+        path.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        return False
+    return path.is_dir()
+
+
 def instantiate_providers(specs: list[ProviderSpec]) -> list[Any]:
     """Build zigpy provider objects from specs (needs the zigpy package)."""
     try:

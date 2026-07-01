@@ -66,5 +66,6 @@ class ZhaFirmwareStatusSensor(
             "status": data.get("status"),
             "zha_reachable": data.get("reachable"),
             "sources": data.get("sources"),
+            "source_stats": data.get("source_stats"),
             "last_injection": data.get("last_injection"),
         }

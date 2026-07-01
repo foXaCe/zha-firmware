@@ -22,6 +22,7 @@ from .const import (
     INTEGRATION_NAME,
     ZHA_DOMAIN,
 )
+from .provider_registry import invalid_urls, validate_folder
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -100,10 +101,23 @@ class ZhaFirmwareOptionsFlow(OptionsFlow):
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Manage the OTA sources."""
+        errors: dict[str, str] = {}
+
         if user_input is not None:
-            return self.async_create_entry(title="", data=user_input)
+            if invalid_urls(user_input.get(CONF_EXTRA_URLS) or ""):
+                errors[CONF_EXTRA_URLS] = "invalid_url"
+
+            folder = str(user_input.get(CONF_LOCAL_FOLDER) or "").strip()
+            if folder and not await self.hass.async_add_executor_job(
+                validate_folder, folder
+            ):
+                errors[CONF_LOCAL_FOLDER] = "invalid_folder"
+
+            if not errors:
+                return self.async_create_entry(title="", data=user_input)
 
         return self.async_show_form(
             step_id="init",
-            data_schema=_options_schema(self.config_entry.options),
+            data_schema=_options_schema(user_input or self.config_entry.options),
+            errors=errors,
         )

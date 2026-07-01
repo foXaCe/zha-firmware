@@ -40,6 +40,11 @@
   },
   "packageRules": [
     {
+      "description": "Home Assistant dictates the Python version; do not let Renovate bump it",
+      "matchDatasources": ["python-version"],
+      "enabled": false
+    },
+    {
       "matchUpdateTypes": ["patch", "pin", "digest"],
       "automerge": true,
       "platformAutomerge": true,

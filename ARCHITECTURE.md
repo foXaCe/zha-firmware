@@ -22,7 +22,7 @@ edit `configuration.yaml` or restart.
 from homeassistant.components.zha.const import DATA_ZHA
 
 zigpy_app = hass.data[DATA_ZHA].gateway_proxy.application  # ControllerApplication
-zigpy_app.ota.register_provider(provider)                  # public, de-duplicated
+zigpy_app.ota.register_provider(provider)  # public, de-duplicated
 ```
 
 Provider classes (`zigpy.ota.providers`):

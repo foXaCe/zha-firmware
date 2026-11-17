@@ -22,8 +22,10 @@
   "rebaseWhen": "auto",
   "minimumReleaseAge": "3 days",
   "internalChecksFilter": "strict",
-  "dependencyDashboard": true,
-  "dependencyDashboardTitle": "📦 Renovate Dependency Dashboard",
+  "dependencyDashboard": {
+    "enabled": true,
+    "title": "📦 Renovate Dependency Dashboard"
+  },
   "configMigration": true,
   "pre-commit": {
     "enabled": true
